@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<!-- Display the static master list fragment-->
+<fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/master_list_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.franjo.android.bakingapp.MainActivity">
+    android:name="com.franjo.android.bakingapp.RecipeMainFragment" />
 
-    <fragment
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/fragment_recipe_main"
-        android:name="com.franjo.android.bakingapp.RecipeMainFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
-</LinearLayout>
+
