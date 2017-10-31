@@ -2,7 +2,6 @@ package com.franjo.android.bakingapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ImageView;
 
 import java.util.List;
 
@@ -12,19 +11,20 @@ import java.util.List;
 
 public class Recipes implements Parcelable{
 
-    private String title;
+
+    private String name;
     private List<Ingredients> ingredients;
     private List<Steps> steps;
     private int servings;
-    private ImageView recipeImage;
+    private String image;
 
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Ingredients> getIngredients() {
@@ -51,18 +51,19 @@ public class Recipes implements Parcelable{
         this.servings = servings;
     }
 
-    public ImageView getRecipeImage() {
-        return recipeImage;
+    public String getImage() {
+        return image;
     }
 
-    public void setRecipeImage(ImageView recipeImage) {
-        this.recipeImage = recipeImage;
+    public void setImage(String image) {
+        this.image = image;
     }
 
 
-    protected Recipes(Parcel in) {
-        title = in.readString();
+    private Recipes(Parcel in) {
+        name = in.readString();
         servings = in.readInt();
+        image = in.readString();
 
     }
 
@@ -74,10 +75,11 @@ public class Recipes implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
-        dest.writeString(title);
+        dest.writeString(name);
         dest.writeInt(servings);
         dest.writeList(ingredients);
         dest.writeList(steps);
+        dest.writeString(image);
 
     }
 

@@ -3,10 +3,10 @@
 <!-- Display the static master list fragment-->
 <fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/master_list_fragment"
+    android:id="@+id/fragment_recipe_master_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:name="com.franjo.android.bakingapp.RecipeMainFragment" />
+    android:name="com.franjo.android.bakingapp.ui.RecipeMainFragment" />
 
 
 
