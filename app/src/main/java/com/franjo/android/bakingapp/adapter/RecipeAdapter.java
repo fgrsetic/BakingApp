@@ -55,11 +55,17 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         String imageUrl = recipes.getImage();
 
         if (imageUrl != "") {
+
             Picasso.with(mContext)
                     .load(imageUrl)
                     .into(holder.mImageRecipe);
+        } else {
 
+            Picasso.with(mContext)
+                    .load(R.drawable.ic_placeholder)
+                    .into(holder.mImageRecipe);
         }
+
     }
 
     @Override
