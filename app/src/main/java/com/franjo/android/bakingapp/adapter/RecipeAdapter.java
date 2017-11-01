@@ -62,7 +62,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         } else {
 
             Picasso.with(mContext)
-                    .load(R.drawable.ic_placeholder)
+                    .load(R.drawable.ic_ic_placeholder_cake)
                     .into(holder.mImageRecipe);
         }
 
