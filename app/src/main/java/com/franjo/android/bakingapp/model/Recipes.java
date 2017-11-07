@@ -3,6 +3,7 @@ package com.franjo.android.bakingapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,13 +12,24 @@ import java.util.List;
 
 public class Recipes implements Parcelable{
 
-
+    private Integer id;
     private String name;
     private List<Ingredients> ingredients;
     private List<Steps> steps;
-    private int servings;
+    private Integer servings;
     private String image;
 
+    public Recipes() {
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -60,13 +72,6 @@ public class Recipes implements Parcelable{
     }
 
 
-    private Recipes(Parcel in) {
-        name = in.readString();
-        servings = in.readInt();
-        image = in.readString();
-
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -74,16 +79,26 @@ public class Recipes implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeInt(id);
         dest.writeString(name);
         dest.writeInt(servings);
+        dest.writeString(image);
         dest.writeList(ingredients);
         dest.writeList(steps);
-        dest.writeString(image);
-
     }
 
 
+    private Recipes(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        servings = in.readInt();
+        image = in.readString();
+
+        ingredients = new ArrayList<>();
+                in.readList(ingredients, Ingredients.class.getClassLoader());
+        steps = new ArrayList<>();
+                in.readList(steps, Ingredients.class.getClassLoader());
+    }
 
     public static final Creator<Recipes> CREATOR = new Creator<Recipes>() {
         @Override
@@ -96,6 +111,4 @@ public class Recipes implements Parcelable{
             return new Recipes[size];
         }
     };
-
-
 }

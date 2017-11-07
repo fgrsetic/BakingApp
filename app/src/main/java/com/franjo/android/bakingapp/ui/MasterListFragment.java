@@ -1,7 +1,9 @@
 package com.franjo.android.bakingapp.ui;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,12 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.franjo.android.bakingapp.ItemClickListener;
 import com.franjo.android.bakingapp.R;
-import com.franjo.android.bakingapp.adapter.RecipeAdapter;
+import com.franjo.android.bakingapp.adapter.RecipeMainAdapter;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.franjo.android.bakingapp.service.Controller;
 import com.franjo.android.bakingapp.service.RecipeAPI;
+import com.franjo.android.bakingapp.utilities.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,33 +32,36 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by Franjo on 30.10.2017..
+ * Created by Franjo on 6.11.2017..
  */
 
-public class RecipeMainFragment extends Fragment {
+public class MasterListFragment extends Fragment implements ItemClickListener{
 
+    private RecipeMainAdapter mAdapter;
     private List<Recipes> mListRecipes;
-    private RecipeAdapter mAdapter;
 
     // A reference to the RecyclerView in the fragment_recipe_master_list xml layout file
-    @BindView(R.id.fragment_recipe_recycler_view)
+    @BindView(R.id.recipe_recycler_view)
     RecyclerView recyclerView;
 
-    // Mandatory constructor for instantiating the fragment
-    public RecipeMainFragment() {
+    // Mandatory empty constructor
+    public MasterListFragment() {
 
     }
 
+    // Inflates the RecyclerView of all recipes
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_recipe_master_list, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
 
         ButterKnife.bind(this, rootView);
 
+        mListRecipes = new ArrayList<>();
         // Create the adapter
         // This adapter takes in the context and an ArrayList of the image view and textview to display
-        mAdapter = new RecipeAdapter(getContext(), mListRecipes);
+        mAdapter = new RecipeMainAdapter(getContext(), mListRecipes);
 
         // Allows recyclerview optimization on UI,
         // allowing avoid invalidating whole layout when adapter contents change
@@ -62,15 +70,17 @@ public class RecipeMainFragment extends Fragment {
         // Set the adapter on recyclerview
         recyclerView.setAdapter(mAdapter);
 
+        mAdapter.setItemClickedListener(this);
+
         // LayoutManager determines how collection of items is displayed in a grid
         // Displaying different column count depending on orientation
-        if (getContext().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         }
 
-        RecipeAPI recipeAPI = Controller.getRecipes();
+        final RecipeAPI recipeAPI = Controller.getRecipes();
         Call<List<Recipes>> call = recipeAPI.getRecipes();
 
         call.enqueue(new Callback<List<Recipes>>() {
@@ -79,6 +89,11 @@ public class RecipeMainFragment extends Fragment {
 
                 if(response.isSuccessful()) {
                     List<Recipes> recipesList = response.body();
+
+//                    Bundle recipeBundle = new Bundle();
+//                    recipeBundle.putParcelableArrayList("All recipes", (ArrayList<? extends Parcelable>) recipesList);
+
+
                     mAdapter.addRecipes(recipesList);
 
                 } else {
@@ -87,12 +102,27 @@ public class RecipeMainFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<Recipes>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Recipes>> call, @NonNull Throwable t) {
                 t.printStackTrace();
             }
         });
 
-        // Return the root view
         return rootView;
     }
+
+    @Override
+    public void itemClicked(Recipes position) {
+
+        Bundle bundle = new Bundle();
+        mListRecipes = new ArrayList<>();
+        mListRecipes.add(position);
+        bundle.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mListRecipes);
+
+        Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+
+    }
+
 }

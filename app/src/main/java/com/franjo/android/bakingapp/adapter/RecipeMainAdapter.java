@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.franjo.android.bakingapp.ItemClickListener;
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.squareup.picasso.Picasso;
@@ -22,15 +23,17 @@ import butterknife.ButterKnife;
  * Created by Franjo on 30.10.2017..
  */
 
-public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.RecipeViewHolder> {
 
     private Context mContext;
     private LayoutInflater mInflater;
     private List<Recipes> mListRecipes = new ArrayList<>();
+    private ItemClickListener mListener;
 
-    public RecipeAdapter(Context context, List<Recipes> recipesList) {
+
+    public RecipeMainAdapter(Context context, List<Recipes> listRecipes) {
         mContext = context;
-        mListRecipes = recipesList;
+        mListRecipes = listRecipes;
         mInflater = LayoutInflater.from(context);
 
     }
@@ -42,7 +45,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         View rowView = mInflater.inflate(layoutForCardView, parent, false);
 
-        return new RecipeViewHolder(rowView, mContext, mListRecipes);
+        return new RecipeViewHolder(rowView, mListRecipes);
     }
 
     @Override
@@ -76,12 +79,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public void addRecipes(List<Recipes> recipes) {
         mListRecipes = recipes;
+        //mContext = context;
         notifyDataSetChanged();
     }
 
-    class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public void setItemClickedListener(ItemClickListener listener) {
+        this.mListener = listener;
 
-        private Context mContext;
+    }
+
+
+    class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
         private List<Recipes> mRecipesList;
 
         @BindView(R.id.recipe_title)
@@ -91,15 +100,29 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         ImageView mImageRecipe;
 
 
-        RecipeViewHolder(View itemView, Context context, List<Recipes> recipesList) {
+        RecipeViewHolder(View itemView, List<Recipes> recipesList) {
             super(itemView);
-            mContext = context;
             mRecipesList = recipesList;
 
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+
         }
 
 
+        @Override
+        public void onClick(View view) {
+            if (mListener != null) {
+                    mListener.itemClicked(mRecipesList.get(getAdapterPosition()));
+            }
+
+
+
+
+        }
     }
 
+
 }
+
+
