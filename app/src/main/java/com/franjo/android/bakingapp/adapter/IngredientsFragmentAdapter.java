@@ -20,14 +20,14 @@ import butterknife.ButterKnife;
  * Created by Franjo on 2.11.2017..
  */
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientsViewHolder> {
+public class IngredientsFragmentAdapter extends RecyclerView.Adapter<IngredientsFragmentAdapter.IngredientsViewHolder> {
 
     private Context mContext;
     private List<Ingredients> mListIngredients = new ArrayList<>();;
     private LayoutInflater mInflater;
 
 
-    public IngredientAdapter(Context context, List<Ingredients> ingredientsList) {
+    public IngredientsFragmentAdapter(Context context, List<Ingredients> ingredientsList) {
         mContext = context;
         mListIngredients = ingredientsList;
         mInflater = LayoutInflater.from(context);

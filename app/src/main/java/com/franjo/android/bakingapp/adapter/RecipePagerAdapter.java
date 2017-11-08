@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.franjo.android.bakingapp.ui.IngredientFragment;
-import com.franjo.android.bakingapp.ui.StepFragment;
+import com.franjo.android.bakingapp.ui.StepsFragment;
 
 /**
  * Created by Franjo on 3.11.2017..
@@ -49,7 +49,9 @@ public class RecipePagerAdapter extends FragmentPagerAdapter {
                 return ingredientFragment;
 
             case 1:
-                return new StepFragment();
+                StepsFragment stepsFragment = new StepsFragment();
+                stepsFragment.setArguments(mBundle);
+                return stepsFragment;
 
             default:
                 return null;

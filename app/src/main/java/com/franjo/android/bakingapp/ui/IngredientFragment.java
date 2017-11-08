@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.franjo.android.bakingapp.R;
-import com.franjo.android.bakingapp.adapter.IngredientAdapter;
+import com.franjo.android.bakingapp.adapter.IngredientsFragmentAdapter;
 import com.franjo.android.bakingapp.model.Ingredients;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.franjo.android.bakingapp.utilities.Constants;
@@ -31,7 +31,7 @@ public class IngredientFragment extends Fragment {
 
     private static final String TAG = IngredientFragment.class.getSimpleName();
 
-    private IngredientAdapter mAdapter;
+    private IngredientsFragmentAdapter mAdapter;
 
     // A reference to the RecyclerView in the fragment_recipe_master_list xml layout file
     @BindView(R.id.ingredient_layout)
@@ -40,7 +40,6 @@ public class IngredientFragment extends Fragment {
     List<Recipes> mRecipesList;
     List<Ingredients> mIngredientsList;
 
-    List<Ingredients> mTempList;
     private int mListIndex;
 
     public IngredientFragment() {
@@ -52,7 +51,7 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_ingredient_layout, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_ingredients_layout, container, false);
 
         ButterKnife.bind(this, rootView);
 
@@ -70,7 +69,7 @@ public class IngredientFragment extends Fragment {
 
         }
 
-        mAdapter = new IngredientAdapter(getActivity(), mIngredientsList);
+        mAdapter = new IngredientsFragmentAdapter(getActivity(), mIngredientsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -79,13 +78,13 @@ public class IngredientFragment extends Fragment {
         return rootView;
         }
 
-//        public void setListIds(List<Recipes> recipesIds) {
-//            mRecipesList = recipesIds;
-//        }
-//
-//        public void setListIndex() {
-//            mListIndex = 0;
-//        }
+        public void setListIds(List<Recipes> recipesIds) {
+            mRecipesList = recipesIds;
+        }
 
-    }
+        public void setListIndex() {
+            mListIndex = 0;
+        }
+
+}
 

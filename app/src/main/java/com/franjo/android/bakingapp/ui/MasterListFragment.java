@@ -118,7 +118,7 @@ public class MasterListFragment extends Fragment implements ItemClickListener{
         mListRecipes.add(position);
         bundle.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mListRecipes);
 
-        Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
+        final Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
 
