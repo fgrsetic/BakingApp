@@ -23,11 +23,10 @@
         </activity>
 
         <activity
-            android:name=".ui.RecipeDetailActivity"
-            android:parentActivityName=".ui.RecipeMainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.RecipeMainActivity" />
+            android:name=".ui.RecipeDetailActivity" >
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".ui.RecipeMainActivity" />-->
         </activity>
 
     </application>

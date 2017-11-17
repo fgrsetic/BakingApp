@@ -11,7 +11,7 @@
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/mPlayerView"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,8 @@
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mPlayerView" >
+        app:layout_constraintTop_toBottomOf="@+id/mPlayerView"
+        android:visibility="gone">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -68,7 +69,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp" >
+        android:layout_margin="16dp"
+        android:visibility="gone">
 
         <Button
             android:id="@+id/btnPrevious"

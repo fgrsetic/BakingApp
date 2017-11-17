@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.franjo.android.bakingapp.ItemClickListener;
+import com.franjo.android.bakingapp.OnRecipesItemClickListener;
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.squareup.picasso.Picasso;
@@ -28,7 +28,7 @@ public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.Re
     private Context mContext;
     private LayoutInflater mInflater;
     private List<Recipes> mListRecipes = new ArrayList<>();
-    private ItemClickListener mListener;
+    private OnRecipesItemClickListener mListener;
 
 
     public RecipeMainAdapter(Context context, List<Recipes> listRecipes) {
@@ -83,7 +83,7 @@ public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.Re
         notifyDataSetChanged();
     }
 
-    public void setItemClickedListener(ItemClickListener listener) {
+    public void setItemClickedListener(OnRecipesItemClickListener listener) {
         this.mListener = listener;
 
     }

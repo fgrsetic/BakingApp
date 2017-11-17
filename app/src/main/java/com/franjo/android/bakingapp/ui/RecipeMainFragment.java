@@ -1,10 +1,10 @@
 package com.franjo.android.bakingapp.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,13 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.franjo.android.bakingapp.ItemClickListener;
+import com.franjo.android.bakingapp.OnRecipesItemClickListener;
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.adapter.RecipeMainAdapter;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.franjo.android.bakingapp.service.Controller;
 import com.franjo.android.bakingapp.service.RecipeAPI;
-import com.franjo.android.bakingapp.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,31 +31,48 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by Franjo on 6.11.2017..
+ * Created by Franjo on 15.11.2017..
  */
 
-public class MasterListFragment extends Fragment implements ItemClickListener{
+public class RecipeMainFragment extends Fragment {
 
     private RecipeMainAdapter mAdapter;
-    private List<Recipes> mListRecipes;
 
     // A reference to the RecyclerView in the fragment_recipe_master_list xml layout file
     @BindView(R.id.recipe_recycler_view)
     RecyclerView recyclerView;
 
-    // Mandatory empty constructor
-    public MasterListFragment() {
+    List<Recipes> mListRecipes;
+
+    OnRecipesItemClickListener mListener;
+
+    // Override onAttach to make sure that the container activity has implemented the callback
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+            mListener = (OnRecipesItemClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnRecipesItemClickListener");
+        }
+    }
+
+    public RecipeMainFragment() {
 
     }
 
-    // Inflates the RecyclerView of all recipes
+
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_master_list, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_main_recipe, container, false);
 
-        ButterKnife.bind(this, rootView);
+        ButterKnife.bind(this, fragmentView);
 
         mListRecipes = new ArrayList<>();
         // Create the adapter
@@ -70,12 +86,13 @@ public class MasterListFragment extends Fragment implements ItemClickListener{
         // Set the adapter on recyclerview
         recyclerView.setAdapter(mAdapter);
 
-        mAdapter.setItemClickedListener(this);
+        mAdapter.setItemClickedListener(mListener);
 
         // LayoutManager determines how collection of items is displayed in a grid
         // Displaying different column count depending on orientation
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         }
@@ -83,16 +100,12 @@ public class MasterListFragment extends Fragment implements ItemClickListener{
         final RecipeAPI recipeAPI = Controller.getRecipes();
         Call<List<Recipes>> call = recipeAPI.getRecipes();
 
-        call.enqueue(new Callback<List<Recipes>>() {
+            call.enqueue(new Callback<List<Recipes>>() {
             @Override
             public void onResponse(@NonNull Call<List<Recipes>> call, @NonNull Response<List<Recipes>> response) {
 
                 if(response.isSuccessful()) {
                     List<Recipes> recipesList = response.body();
-
-//                    Bundle recipeBundle = new Bundle();
-//                    recipeBundle.putParcelableArrayList("All recipes", (ArrayList<? extends Parcelable>) recipesList);
-
 
                     mAdapter.addRecipes(recipesList);
 
@@ -107,22 +120,9 @@ public class MasterListFragment extends Fragment implements ItemClickListener{
             }
         });
 
-        return rootView;
-    }
-
-    @Override
-    public void itemClicked(Recipes position) {
-
-        Bundle bundle = new Bundle();
-        mListRecipes = new ArrayList<>();
-        mListRecipes.add(position);
-        bundle.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mListRecipes);
-
-        final Intent intent = new Intent(getContext(), RecipeDetailActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
-
+        return fragmentView;
 
     }
+
 
 }

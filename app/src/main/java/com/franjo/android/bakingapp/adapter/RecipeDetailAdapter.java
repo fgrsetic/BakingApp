@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.franjo.android.bakingapp.OnStepItemClickListener;
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.model.Steps;
 
@@ -20,36 +21,39 @@ import butterknife.ButterKnife;
  * Created by Franjo on 7.11.2017..
  */
 
-public class StepsFragmentAdapter extends RecyclerView.Adapter<StepsFragmentAdapter.StepsViewHolder> {
+public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.ViewHolder> {
 
-    private Context mContext;
     private List<Steps> mListSteps = new ArrayList<>();
     private LayoutInflater mInflater;
+    private OnStepItemClickListener mlistener;
 
 
-    public StepsFragmentAdapter(Context context, List<Steps> stepsList) {
-        mContext = context;
+    public RecipeDetailAdapter(Context context, List<Steps> stepsList) {
         mListSteps = stepsList;
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public StepsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        int layoutForListItem = R.layout.fragment_steps_item;
+        int layoutForListItem = R.layout.recipe_detailed_cardview_item;
 
         View rootView = mInflater.inflate(layoutForListItem, parent, false);
 
-        return new StepsViewHolder(rootView, mListSteps);
+        return new ViewHolder(rootView, mListSteps);
     }
 
     @Override
-    public void onBindViewHolder(StepsViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
 
         Steps data = mListSteps.get(position);
 
+        holder.tvBullet.setText("\u2022");
+
         String shortDescriptiom = data.getShortDescription();
         holder.tvShortDescription.setText(shortDescriptiom);
+
+        holder.tvStepsDetails.setText("\u25BA");
 
 
     }
@@ -59,18 +63,34 @@ public class StepsFragmentAdapter extends RecyclerView.Adapter<StepsFragmentAdap
         return (mListSteps == null) ? 0 : mListSteps.size();
     }
 
-    class StepsViewHolder extends RecyclerView.ViewHolder {
+    public void setOnStepFragmentClickListener(OnStepItemClickListener listener) {
+        mlistener = listener;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private List<Steps> mListSteps;
 
+        @BindView(R.id.tvBullet)
+        TextView tvBullet;
         @BindView(R.id.tvShortDescription)
         TextView tvShortDescription;
+        @BindView(R.id.tvStepsDetails)
+        TextView tvStepsDetails;
 
-        StepsViewHolder(View itemView, List<Steps> listSteps) {
+        ViewHolder(View itemView, List<Steps> listSteps) {
             super(itemView);
             mListSteps = listSteps;
 
             ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if(mlistener != null) {
+                mlistener.itemListClicked(mListSteps, getAdapterPosition());
+            }
         }
     }
 }

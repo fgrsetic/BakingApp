@@ -11,10 +11,13 @@ public class Steps implements Parcelable{
 
     private Integer id;
     private String shortDescription;
-    private String videoUrl;
-    private String thumbnailUrl;
     private String description;
+    private String videoURL;
+    private String thumbnailURL;
 
+    public Steps() {
+
+    }
 
 
     public Integer getId() {
@@ -33,20 +36,20 @@ public class Steps implements Parcelable{
         this.shortDescription = shortDescription;
     }
 
-    public String getVideoUrl() {
-        return videoUrl;
+    public String getVideoURL() {
+        return videoURL;
     }
 
-    public void setVideoUrl(String videoUrl) {
-        this.videoUrl = videoUrl;
+    public void setVideoURL(String videoURL) {
+        this.videoURL = videoURL;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getThumbnailURL() {
+        return thumbnailURL;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+    public void setThumbnailURL(String thumbnailUrl) {
+        this.thumbnailURL = thumbnailURL;
     }
 
     public String getDescription() {
@@ -73,16 +76,16 @@ public class Steps implements Parcelable{
             dest.writeInt(id);
         }
         dest.writeString(shortDescription);
-        dest.writeString(videoUrl);
-        dest.writeString(thumbnailUrl);
+        dest.writeString(videoURL);
+        dest.writeString(thumbnailURL);
         dest.writeString(description);
     }
 
-    private Steps(Parcel in) {
+    public Steps(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         shortDescription = in.readString();
-        videoUrl = in.readString();
-        thumbnailUrl = in.readString();
+        videoURL = in.readString();
+        thumbnailURL = in.readString();
         description = in.readString();
     }
 

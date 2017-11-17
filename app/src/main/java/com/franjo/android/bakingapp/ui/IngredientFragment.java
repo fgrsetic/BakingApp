@@ -1,6 +1,7 @@
 package com.franjo.android.bakingapp.ui;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,16 +32,13 @@ public class IngredientFragment extends Fragment {
 
     private static final String TAG = IngredientFragment.class.getSimpleName();
 
-    private IngredientsFragmentAdapter mAdapter;
-
     // A reference to the RecyclerView in the fragment_recipe_master_list xml layout file
-    @BindView(R.id.ingredient_layout)
+    @BindView(R.id.ingredient_detail_layout)
     RecyclerView recyclerView;
 
     List<Recipes> mRecipesList;
     List<Ingredients> mIngredientsList;
 
-    private int mListIndex;
 
     public IngredientFragment() {
 
@@ -51,40 +49,46 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View rootView = inflater.inflate(R.layout.fragment_ingredients_layout, container, false);
-
-        ButterKnife.bind(this, rootView);
-
         mRecipesList = new ArrayList<>();
-
         Bundle bundle = getArguments();
 
-        mRecipesList = bundle.getParcelableArrayList(Constants.CLICKED_RECIPE);
+        if(savedInstanceState != null) {
+
+            mRecipesList = savedInstanceState.getParcelableArrayList(Constants.CLICKED_RECIPE);
+
+        } else {
+
+            mRecipesList = bundle.getParcelableArrayList(Constants.CLICKED_RECIPE);
+        }
+
+        View fragmentView = inflater.inflate(R.layout.fragment_ingredient_detail_layout, container, false);
+
+        ButterKnife.bind(this, fragmentView);
 
         if (mRecipesList != null) {
-            mIngredientsList = mRecipesList.get(mListIndex).getIngredients();
+            mIngredientsList = mRecipesList.get(0).getIngredients();
 
         } else {
             Log.v(TAG, "This fragment has a null list of ingredients id's");
 
         }
 
-        mAdapter = new IngredientsFragmentAdapter(getActivity(), mIngredientsList);
+        IngredientsFragmentAdapter mAdapter = new IngredientsFragmentAdapter(getActivity(), mIngredientsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        return rootView;
-        }
+        return fragmentView;
+    }
 
-        public void setListIds(List<Recipes> recipesIds) {
-            mRecipesList = recipesIds;
-        }
+    @Override
+    public void onSaveInstanceState(Bundle currentState) {
+        super.onSaveInstanceState(currentState);
+        currentState.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mRecipesList);
 
-        public void setListIndex() {
-            mListIndex = 0;
-        }
+
+    }
 
 }
 
