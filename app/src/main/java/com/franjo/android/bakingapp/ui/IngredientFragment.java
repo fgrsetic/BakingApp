@@ -32,14 +32,15 @@ public class IngredientFragment extends Fragment {
 
     private static final String TAG = IngredientFragment.class.getSimpleName();
 
-    // A reference to the RecyclerView in the fragment_recipe_master_list xml layout file
     @BindView(R.id.ingredient_detail_layout)
     RecyclerView recyclerView;
 
-    List<Recipes> mRecipesList;
-    List<Ingredients> mIngredientsList;
+    private List<Recipes> mRecipesList;
+    private List<Ingredients> mIngredientsList;
+    private int mListIndex;
 
 
+    // Mandatory empty constructor
     public IngredientFragment() {
 
     }
@@ -53,20 +54,17 @@ public class IngredientFragment extends Fragment {
         Bundle bundle = getArguments();
 
         if(savedInstanceState != null) {
-
             mRecipesList = savedInstanceState.getParcelableArrayList(Constants.CLICKED_RECIPE);
-
         } else {
-
             mRecipesList = bundle.getParcelableArrayList(Constants.CLICKED_RECIPE);
         }
 
-        View fragmentView = inflater.inflate(R.layout.fragment_ingredient_detail_layout, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_ingredient_detail_layout, container, false);
 
-        ButterKnife.bind(this, fragmentView);
+        ButterKnife.bind(this, rootView);
 
         if (mRecipesList != null) {
-            mIngredientsList = mRecipesList.get(0).getIngredients();
+            mIngredientsList = mRecipesList.get(mListIndex).getIngredients();
 
         } else {
             Log.v(TAG, "This fragment has a null list of ingredients id's");
@@ -79,7 +77,7 @@ public class IngredientFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-        return fragmentView;
+        return rootView;
     }
 
     @Override
@@ -89,6 +87,7 @@ public class IngredientFragment extends Fragment {
 
 
     }
+
 
 }
 

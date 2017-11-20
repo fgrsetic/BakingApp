@@ -26,18 +26,15 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     private static final String TAG = RecipeDetailActivity.class.getSimpleName();
 
     public String mRecipeName;
-    List<Recipes> mRecipes;
-    List<Steps> mSteps;
-    int mPosition;
+    private FragmentManager fragmentManager;
 
     @BindView(R.id.layout_fragment_container)
     LinearLayout linearLayout;
 
-    FragmentManager fragmentManager;
 
-
-
-    Bundle data;
+    // Track whether to display a two-pane or single-pane UI
+    // A single-pane display refers to phone screens, and two-pane to larger tablet screens
+    private boolean mTwoPane;
 
 
     @Override
@@ -52,44 +49,47 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         ButterKnife.bind(this);
 
-        //mSteps = new ArrayList<>();
-        fragmentManager = getSupportFragmentManager();
+        // Determine if you're creating a two-pane or single-pane display
+        if (linearLayout != null) {
 
+            // This LinearLayout will only initially exist in the two-pane tablet case
+            mTwoPane = true;
 
-        if (savedInstanceState == null) {
+            // Only create new fragments when there is no previously saved state
+            if (savedInstanceState == null) {
 
-            data = getIntent().getExtras();
+                fragmentManager = getSupportFragmentManager();
+                Bundle data = getIntent().getExtras();
+                List<Recipes> mRecipes = new ArrayList<>();
 
-            if (data != null) {
-                mRecipes = data.getParcelableArrayList(Constants.CLICKED_RECIPE);
-            }
+                if (data != null) {
+                    mRecipes = data.getParcelableArrayList(Constants.CLICKED_RECIPE);
+                }
+                if (mRecipes != null) {
+                    mRecipeName = mRecipes.get(0).getName();
+                }
 
-            if (mRecipes != null) {
-                mRecipeName = mRecipes.get(0).getName();
-            }
+                RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
+                recipeDetailFragment.setArguments(data);
+                fragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, recipeDetailFragment)
+                        .addToBackStack(Constants.RECIPE_DETAILS_STACK)
+                        .commit();
 
-            RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
-            recipeDetailFragment.setArguments(data);
-            fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, recipeDetailFragment)
-                    .addToBackStack(Constants.RECIPE_DETAILS_STACK)
-                    .commit();
-
-            // Determing if there is two-pane or single-pane display
-            if (linearLayout.getTag() != null && linearLayout.getTag().equals("tablet-land")) {
                 StepDetailFragment stepDetailFragment = new StepDetailFragment();
                 stepDetailFragment.setArguments(data);
                 fragmentManager.beginTransaction()
-                        .add(R.id.fragment_container_land, stepDetailFragment)
-                        .addToBackStack(null)
+                        .replace(R.id.fragment_container_land, stepDetailFragment)
+                        .addToBackStack(Constants.STEP_DETAILS_STACK)
                         .commit();
 
-            }
+                }
 
 
         } else {
-
+            mTwoPane = false;
             mRecipeName = savedInstanceState.getString("Title");
+
         }
 
         if (actionBar != null) {
@@ -104,8 +104,9 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         if (id == android.R.id.home) {
             if (findViewById(R.id.fragment_container_land) == null) {
                 if (fragmentManager.getBackStackEntryCount() > 1) {
-                    fragmentManager.popBackStack();
+                    fragmentManager.popBackStack(Constants.RECIPE_DETAILS_STACK, 0);
                 } else if (fragmentManager.getBackStackEntryCount() > 0) {
+
                     finish();
                 }
             } else {
@@ -125,16 +126,18 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         stepDetailFragment.setArguments(bundle);
 
 
-        if (linearLayout.getTag() != null && linearLayout.getTag().equals("tablet-land")) {
+        if (linearLayout != null)  {
+            mTwoPane = true;
             fragmentManager.beginTransaction()
-                    .add(R.id.fragment_container_land, stepDetailFragment)
+                    .replace(R.id.fragment_container_land, stepDetailFragment)
                     .addToBackStack(Constants.STEP_DETAILS_STACK)
                     .commit();
 
         } else {
+            mTwoPane = false;
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, stepDetailFragment)
-                    .addToBackStack(Constants.RECIPE_DETAILS_STACK)
+                    .addToBackStack(Constants.STEP_DETAILS_STACK)
                     .commit();
         }
 
@@ -145,6 +148,8 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("Title", mRecipeName);
+
+
     }
 
     @Override

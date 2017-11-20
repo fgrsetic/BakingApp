@@ -1,8 +1,10 @@
 package com.franjo.android.bakingapp.ui;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -47,8 +49,15 @@ public class StepDetailFragment extends Fragment {
 
     private static final String TAG = StepDetailFragment.class.getSimpleName();
 
-    List<Recipes> mListRecipes = new ArrayList<>();
-    List<Steps>  mListSteps = new ArrayList<>();
+    private List<Recipes> mListRecipes;
+    private List<Steps> mListSteps;
+
+    private SimpleExoPlayer mPlayer;
+    private DefaultBandwidthMeter bandwithMeter;
+    private static MediaSessionCompat mMediaSession;
+
+    private int mListIndex;
+    private String mRecipeName;
 
     @BindView(R.id.tvDescription)
     TextView tvDescription;
@@ -65,44 +74,59 @@ public class StepDetailFragment extends Fragment {
     @BindView(R.id.btnNext)
     Button btnNext;
 
-    private SimpleExoPlayer mPlayer;
-    private DefaultBandwidthMeter bandwithMeter;
-    private static MediaSessionCompat mMediaSession;
-
-    Bundle bundle;
-
-    String mVideoUrl;
-    String thumbnailURL;
-    Uri builtUri;
-
-    private int mListIndex;
-    String mRecipeName;
-
-
-    // Define a new interface OnButtonClickListener that triggers a callback in the host activity
+    // Define a new interface OnStepDetailListener that triggers a callback in the host activity
     OnStepDetailListener mButtonCallback;
 
-    public interface OnStepDetailListener {
-        void onStepSelected(List<Steps> stepsList, int position);
-    }
 
-
-    // Required empty public constructor
+    // Mandatory empty constructor
     public StepDetailFragment() {
 
     }
 
 
+
+
+    public interface OnStepDetailListener {
+        void onStepSelected(List<Steps> stepsList, int position);
+    }
+
+    // Override onAttach to make sure that the container activity has implemented the callback
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        // This makes sure that the host activity has implemented the callback interface
+        // If not, it throws an exception
+        try {
+            mButtonCallback = (OnStepDetailListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnStepDetailListener");
+        }
+    }
+
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mListRecipes = new ArrayList<>();
+        mListSteps = new ArrayList<>();
+        bandwithMeter = new DefaultBandwidthMeter();
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
-        bundle = getArguments();
-        bandwithMeter = new DefaultBandwidthMeter();
-
+        Bundle bundle = getArguments();
         mButtonCallback = (RecipeDetailActivity)getActivity();
 
+        mRecipeName = ((RecipeDetailActivity)getActivity()).mRecipeName;
+
         if (savedInstanceState != null) {
+            mListRecipes = savedInstanceState.getParcelableArrayList(Constants.CLICKED_RECIPE);
             mListSteps = savedInstanceState.getParcelableArrayList(Constants.CLICKED_STEP);
             mListIndex = savedInstanceState.getInt("Index");
 
@@ -122,17 +146,20 @@ public class StepDetailFragment extends Fragment {
             }
         }
 
+
+
+        // Initialize the Media Session.
+        initializeMediaSession();
+
+
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
         ButterKnife.bind(this, fragmentView);
 
-        mRecipeName = ((RecipeDetailActivity)getActivity()).mRecipeName;
-
         setDetailedStepFragment(mListSteps, mListIndex);
 
-        // Initialize the Media Session.
-        initializeMediaSession();
+
 
             btnPrevious.setOnClickListener(new View.OnClickListener() {
 
@@ -183,9 +210,6 @@ public class StepDetailFragment extends Fragment {
 
             });
 
-
-
-
         return fragmentView;
     }
 
@@ -199,11 +223,11 @@ public class StepDetailFragment extends Fragment {
 
             mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
-            thumbnailURL = listSteps.get(index).getThumbnailURL();
-            mVideoUrl = listSteps.get(index).getVideoURL();
+            String thumbnailURL = listSteps.get(index).getThumbnailURL();
+            String mVideoUrl = listSteps.get(index).getVideoURL();
 
             if (thumbnailURL != "") {
-                builtUri = Uri.parse(thumbnailURL).buildUpon().build();
+                Uri builtUri = Uri.parse(thumbnailURL).buildUpon().build();
                 Picasso.with(getContext())
                         .load(builtUri)
                         .into(mThumbnailImage);
@@ -304,8 +328,15 @@ public class StepDetailFragment extends Fragment {
     public void onSaveInstanceState(Bundle currentState) {
         super.onSaveInstanceState(currentState);
         currentState.putParcelableArrayList(Constants.CLICKED_STEP, (ArrayList<? extends Parcelable>) mListSteps);
+        currentState.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mListRecipes);
         currentState.putInt("Index", mListIndex);
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mButtonCallback = null;
     }
 
 

@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,12 +12,13 @@
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/mPlayerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="350dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
 
     </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
@@ -35,14 +38,13 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cvStepsDescription"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mPlayerView"
-        android:visibility="gone">
+        app:layout_constraintTop_toBottomOf="@+id/mPlayerView">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -52,12 +54,12 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textAlignment="center"
                 android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:fontFamily="monospace"
+                android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="14sp"
-                android:fontFamily="monospace"
                 android:textStyle="bold"
                 tools:text="Description">
 
@@ -69,8 +71,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:visibility="gone">
+        android:layout_margin="16dp" >
 
         <Button
             android:id="@+id/btnPrevious"
