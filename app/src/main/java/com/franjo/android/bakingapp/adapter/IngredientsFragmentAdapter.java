@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.model.Ingredients;
+import com.franjo.android.bakingapp.utilities.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class IngredientsFragmentAdapter extends RecyclerView.Adapter<Ingredients
 
         View rootView = mInflater.inflate(layoutForListItem, parent, false);
 
-        return new IngredientsViewHolder(rootView, mListIngredients);
+        return new IngredientsViewHolder(rootView);
     }
 
     @Override
@@ -51,8 +52,8 @@ public class IngredientsFragmentAdapter extends RecyclerView.Adapter<Ingredients
         String measure = data.getMeasure();
         String ingredient = data.getIngredient();
 
-        holder.tvQuantity.setText(quantity + "");
-        holder.tvMeasure.setText(measure);
+        holder.tvQuantity.setText(String.format("Quantity: %s", Constants.format(quantity)));
+        holder.tvMeasure.setText(String.format(mContext.getString(R.string.measure_text), measure));
         holder.tvIngredient.setText(ingredient);
 
 
@@ -67,8 +68,6 @@ public class IngredientsFragmentAdapter extends RecyclerView.Adapter<Ingredients
 
     class IngredientsViewHolder extends RecyclerView.ViewHolder {
 
-        private List<Ingredients> mIngredientsList;
-
         @BindView(R.id.quantity)
         TextView tvQuantity;
         @BindView(R.id.measure)
@@ -77,9 +76,9 @@ public class IngredientsFragmentAdapter extends RecyclerView.Adapter<Ingredients
         TextView tvIngredient;
 
 
-        IngredientsViewHolder(View itemView, List<Ingredients> ingredientsList) {
+        IngredientsViewHolder(View itemView) {
             super(itemView);
-            mIngredientsList = ingredientsList;
+
 
 
             ButterKnife.bind(this, itemView);

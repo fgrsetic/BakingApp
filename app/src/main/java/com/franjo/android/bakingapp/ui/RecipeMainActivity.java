@@ -16,13 +16,13 @@ import java.util.List;
 // This activity is responsible for displaying the master list of all recipes
 public class RecipeMainActivity extends AppCompatActivity implements OnRecipesItemClickListener {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
 
     }
-
 
 
     @Override

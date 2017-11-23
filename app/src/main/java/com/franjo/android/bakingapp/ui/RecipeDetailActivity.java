@@ -32,11 +32,6 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
     LinearLayout linearLayout;
 
 
-    // Track whether to display a two-pane or single-pane UI
-    // A single-pane display refers to phone screens, and two-pane to larger tablet screens
-    private boolean mTwoPane;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +44,11 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
 
         ButterKnife.bind(this);
 
-        // Determine if you're creating a two-pane or single-pane display
-        if (linearLayout != null) {
-
-            // This LinearLayout will only initially exist in the two-pane tablet case
-            mTwoPane = true;
+        fragmentManager = getSupportFragmentManager();
 
             // Only create new fragments when there is no previously saved state
             if (savedInstanceState == null) {
 
-                fragmentManager = getSupportFragmentManager();
                 Bundle data = getIntent().getExtras();
                 List<Recipes> mRecipes = new ArrayList<>();
 
@@ -72,23 +62,23 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
                 RecipeDetailFragment recipeDetailFragment = new RecipeDetailFragment();
                 recipeDetailFragment.setArguments(data);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, recipeDetailFragment)
+                        .add(R.id.fragment_container, recipeDetailFragment)
                         .addToBackStack(Constants.RECIPE_DETAILS_STACK)
                         .commit();
-
-                StepDetailFragment stepDetailFragment = new StepDetailFragment();
-                stepDetailFragment.setArguments(data);
-                fragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container_land, stepDetailFragment)
-                        .addToBackStack(Constants.STEP_DETAILS_STACK)
-                        .commit();
+                // This LinearLayout will only initially exist in the two-pane tablet case
+                if (linearLayout.getTag() != null && linearLayout.getTag().equals("tablet-land") ) {
+                    StepDetailFragment stepDetailFragment = new StepDetailFragment();
+                    stepDetailFragment.setArguments(data);
+                    fragmentManager.beginTransaction()
+                            .add(R.id.fragment_container_land, stepDetailFragment)
+                            .addToBackStack(Constants.STEP_DETAILS_STACK)
+                            .commit();
 
                 }
 
+            } else {
 
-        } else {
-            mTwoPane = false;
-            mRecipeName = savedInstanceState.getString("Title");
+                mRecipeName = savedInstanceState.getString("Title");
 
         }
 
@@ -126,15 +116,13 @@ public class RecipeDetailActivity extends AppCompatActivity implements RecipeDet
         stepDetailFragment.setArguments(bundle);
 
 
-        if (linearLayout != null)  {
-            mTwoPane = true;
+        if (linearLayout.getTag() != null && linearLayout.getTag().equals("tablet-land"))  {
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container_land, stepDetailFragment)
                     .addToBackStack(Constants.STEP_DETAILS_STACK)
                     .commit();
 
         } else {
-            mTwoPane = false;
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, stepDetailFragment)
                     .addToBackStack(Constants.STEP_DETAILS_STACK)

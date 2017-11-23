@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quantity_text">Quantity:</string>
+    <string name="ingredients_list_widget_title">Ingredient list:</string>
+</resources>

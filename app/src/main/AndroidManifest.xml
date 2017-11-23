@@ -20,14 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.RecipeDetailActivity">
 
-            <!-- <meta-data -->
-            <!-- android:name="android.support.PARENT_ACTIVITY" -->
-            <!-- android:value=".ui.RecipeMainActivity" /> -->
+        <activity
+            android:name=".ui.RecipeDetailActivity">
+
         </activity>
 
-        <receiver android:name=".RecipesWidgetProvider">
+        <receiver
+            android:name=".widget.RecipesWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -36,6 +36,18 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/recipes_widget_provider_info" />
         </receiver>
+
+        <service
+            android:name=".widget.RecipesUpdateService"
+            android:exported="false">
+        </service>
+
+        <service
+            android:name=".widget.RemoteListViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"> <!-- This lets the system bind your service to create the widget views for each row
+            and prevents other apps from accessing your widget’s data -->
+        </service>
+
     </application>
 
 </manifest>

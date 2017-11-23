@@ -15,9 +15,6 @@ public class Steps implements Parcelable{
     private String videoURL;
     private String thumbnailURL;
 
-    public Steps() {
-
-    }
 
 
     public Integer getId() {
@@ -81,7 +78,7 @@ public class Steps implements Parcelable{
         dest.writeString(description);
     }
 
-    public Steps(Parcel in) {
+    private Steps(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         shortDescription = in.readString();
         videoURL = in.readString();

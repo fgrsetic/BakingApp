@@ -16,6 +16,7 @@ import com.franjo.android.bakingapp.adapter.IngredientsFragmentAdapter;
 import com.franjo.android.bakingapp.model.Ingredients;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.franjo.android.bakingapp.utilities.Constants;
+import com.franjo.android.bakingapp.widget.RecipesUpdateService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,8 @@ public class IngredientFragment extends Fragment {
     private List<Ingredients> mIngredientsList;
     private int mListIndex;
 
+    private List<Ingredients> widgetArrayList;
+
 
     // Mandatory empty constructor
     public IngredientFragment() {
@@ -60,7 +63,6 @@ public class IngredientFragment extends Fragment {
         }
 
         View rootView = inflater.inflate(R.layout.fragment_ingredient_detail_layout, container, false);
-
         ButterKnife.bind(this, rootView);
 
         if (mRecipesList != null) {
@@ -71,14 +73,35 @@ public class IngredientFragment extends Fragment {
 
         }
 
+        widgetArrayList = new ArrayList<>();
+
         IngredientsFragmentAdapter mAdapter = new IngredientsFragmentAdapter(getActivity(), mIngredientsList);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        updateWidgetScreen(mIngredientsList);
 
+
+        Log.i(TAG, "ingredientFragment service");
         return rootView;
     }
+
+    public void updateWidgetScreen(List<Ingredients> widgetArrayList) {
+
+        StringBuilder ingredients = new StringBuilder("Ingredient list: " + "\n");
+        int lineNumber = 0;
+        for (Ingredients ingredient : widgetArrayList) {
+            Double quantity = ingredient.getQuantitiy();
+                    lineNumber++;
+            ingredients.append(lineNumber).append(". ")
+                    .append(ingredient.getIngredient()).append(": " + "\n")
+                    .append(Constants.format(quantity)).append(" ").append(ingredient.getMeasure()).append("\n");
+        }
+
+        RecipesUpdateService.startActionFetchIngredientsList(getContext(), ingredients.toString());
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle currentState) {

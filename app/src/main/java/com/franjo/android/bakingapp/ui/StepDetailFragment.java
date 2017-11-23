@@ -313,6 +313,16 @@ public class StepDetailFragment extends Fragment {
         mPlayer = null;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mButtonCallback = null;
+        if (mPlayer != null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+    }
+
     // Release the player when activity is destroyed
     @Override
     public void onDestroyView() {
@@ -325,6 +335,26 @@ public class StepDetailFragment extends Fragment {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (mPlayer!=null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mPlayer!=null) {
+            mPlayer.stop();
+            mPlayer.release();
+        }
+    }
+
+
+
+    @Override
     public void onSaveInstanceState(Bundle currentState) {
         super.onSaveInstanceState(currentState);
         currentState.putParcelableArrayList(Constants.CLICKED_STEP, (ArrayList<? extends Parcelable>) mListSteps);
@@ -333,11 +363,7 @@ public class StepDetailFragment extends Fragment {
 
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mButtonCallback = null;
-    }
+
 
 
     /**

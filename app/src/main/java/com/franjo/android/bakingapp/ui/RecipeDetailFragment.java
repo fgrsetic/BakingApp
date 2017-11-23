@@ -90,14 +90,21 @@ public class RecipeDetailFragment extends Fragment implements OnStepItemClickLis
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        final Bundle bundle = getArguments();
+
         View fragmentView = inflater.inflate(R.layout.fragment_recipes_detail_layout, container, false);
         ButterKnife.bind(this, fragmentView);
+
+        if (savedInstanceState != null) {
+            savedInstanceState.getParcelableArrayList(Constants.CLICKED_RECIPE);
+        } else {
+            mListRecipes = bundle.getParcelableArrayList(Constants.CLICKED_RECIPE);
+        }
 
         tvIngredientTitle.setText(R.string.ingredients);
         tvIngredientDetails.setText("\u25BA");
         tvStepTitle.setText(R.string.steps);
 
-        final Bundle bundle = getArguments();
         mListRecipes = bundle.getParcelableArrayList(Constants.CLICKED_RECIPE);
 
         if (mListRecipes != null) {
@@ -129,6 +136,8 @@ public class RecipeDetailFragment extends Fragment implements OnStepItemClickLis
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter.setOnStepFragmentClickListener(this);
 
+
+
         return fragmentView;
     }
 
@@ -147,15 +156,6 @@ public class RecipeDetailFragment extends Fragment implements OnStepItemClickLis
     }
 
 
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            savedInstanceState.getParcelableArrayList(Constants.CLICKED_RECIPE);
-        }
-
-    }
 
     @Override
     public void onDetach() {
