@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v4.media.session.PlaybackStateCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +62,7 @@ public class StepDetailFragment extends Fragment {
     TextView tvDescription;
 
     @BindView(R.id.mPlayerView)
-    SimpleExoPlayerView mPlayerView;
+    SimpleExoPlayerView mExoPlayerView;
 
     @BindView(R.id.thumbImage)
     ImageView mThumbnailImage;
@@ -147,11 +146,6 @@ public class StepDetailFragment extends Fragment {
         }
 
 
-
-        // Initialize the Media Session.
-        initializeMediaSession();
-
-
         // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
@@ -178,7 +172,7 @@ public class StepDetailFragment extends Fragment {
                             mButtonCallback.onStepSelected(mListSteps, indexPosition);
 
                         } else {
-                            Toast.makeText(getActivity(), "You are already on the first step", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.button_previous_text_end, Toast.LENGTH_SHORT).show();
 
                         }
                     }
@@ -203,7 +197,7 @@ public class StepDetailFragment extends Fragment {
                         mButtonCallback.onStepSelected(mListSteps, indexPosition);
 
                     } else {
-                        Toast.makeText(getContext(), "You already are in the Last step of the recipe", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.button_next_end_text, Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -221,7 +215,7 @@ public class StepDetailFragment extends Fragment {
             String description = listSteps.get(index).getDescription();
             tvDescription.setText(description);
 
-            mPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+            mExoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
 
             String thumbnailURL = listSteps.get(index).getThumbnailURL();
             String mVideoUrl = listSteps.get(index).getVideoURL();
@@ -238,7 +232,7 @@ public class StepDetailFragment extends Fragment {
                 if (!mVideoUrl.isEmpty())
                     initializePlayer(Uri.parse(mVideoUrl));
                 else {
-                    mPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_no_video));
+                    mExoPlayerView.setForeground(ContextCompat.getDrawable(getContext(), R.drawable.ic_no_video));
 
                 }
             }
@@ -258,54 +252,17 @@ public class StepDetailFragment extends Fragment {
             mPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
 
             // Prepare the MediaSource
-            String userAgent = Util.getUserAgent(getContext(), "Baking App");
+            String userAgent = Util.getUserAgent(getContext(), "Baking app");
             MediaSource videoSource = new ExtractorMediaSource(videoUri, new DefaultDataSourceFactory(
                     getContext(), userAgent), new DefaultExtractorsFactory(), null, null);
 
-            mPlayerView.setPlayer(mPlayer);
+            mExoPlayerView.setPlayer(mPlayer);
             mPlayer.prepare(videoSource);
             mPlayer.setPlayWhenReady(true);
 
         }
 
     }
-
-    /**
-     * Initializes the Media Session to be enabled with media buttons, transport controls, callbacks
-     * and media controller.
-     */
-    private void initializeMediaSession() {
-
-        // Create a MediaSessionCompat.
-        mMediaSession = new MediaSessionCompat(getContext(), TAG);
-
-        // Enable callbacks from MediaButtons and TransportControls.
-        mMediaSession.setFlags(
-                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-
-        // Do not let MediaButtons restart the player when the app is not visible.
-        mMediaSession.setMediaButtonReceiver(null);
-
-        // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player.
-        PlaybackStateCompat.Builder mStateBuilder = new PlaybackStateCompat.Builder()
-                .setActions(
-                        PlaybackStateCompat.ACTION_PLAY |
-                                PlaybackStateCompat.ACTION_PAUSE |
-                                PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS |
-                                PlaybackStateCompat.ACTION_PLAY_PAUSE);
-
-        mMediaSession.setPlaybackState(mStateBuilder.build());
-
-
-        // MySessionCallback has methods that handle callbacks from a media controller.
-        mMediaSession.setCallback(new MySessionCallback());
-
-        // Start the Media Session since the activity is active.
-        mMediaSession.setActive(true);
-
-    }
-
 
     private void releasePlayer() {
         mPlayer.stop();
@@ -329,7 +286,6 @@ public class StepDetailFragment extends Fragment {
         super.onDestroyView();
         if(mPlayer != null) {
             releasePlayer();
-            mMediaSession.setActive(false);
         }
 
     }
@@ -361,29 +317,6 @@ public class StepDetailFragment extends Fragment {
         currentState.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mListRecipes);
         currentState.putInt("Index", mListIndex);
 
-    }
-
-
-
-
-    /**
-     * Media Session Callbacks, where all external clients control the player.
-     */
-    private class MySessionCallback extends MediaSessionCompat.Callback {
-        @Override
-        public void onPlay() {
-            mPlayer.setPlayWhenReady(true);
-        }
-
-        @Override
-        public void onPause() {
-            mPlayer.setPlayWhenReady(false);
-        }
-
-        @Override
-        public void onSkipToPrevious() {
-            mPlayer.seekTo(0);
-        }
     }
 
 

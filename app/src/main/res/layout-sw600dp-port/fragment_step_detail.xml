@@ -87,7 +87,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="8dp"
-            android:focusable="true"/>
+            android:focusable="true"
+            android:background="@drawable/list_item_selector" />
 
         <Button
             android:id="@+id/btnNext"
@@ -104,7 +105,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginRight="8dp"
-            android:focusable="true" />
+            android:focusable="true"
+            android:background="@drawable/list_item_selector" />
 
     </android.support.constraint.ConstraintLayout>
 

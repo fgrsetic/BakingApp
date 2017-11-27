@@ -6,7 +6,8 @@
     android:id="@+id/widget_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#ffab91" >
 
     <TextView
         android:id="@+id/tv_widget_ingredient"
@@ -17,7 +18,7 @@
         android:textSize="16sp"
         android:textColor="#000000"
         android:textStyle="bold"
-        tools:text="Ingredient list"/>
+        tools:text="Ingredient list" />
 
 </LinearLayout>
 

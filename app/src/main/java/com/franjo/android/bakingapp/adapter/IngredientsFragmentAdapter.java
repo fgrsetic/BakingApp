@@ -52,7 +52,7 @@ public class IngredientsFragmentAdapter extends RecyclerView.Adapter<Ingredients
         String measure = data.getMeasure();
         String ingredient = data.getIngredient();
 
-        holder.tvQuantity.setText(String.format("Quantity: %s", Constants.format(quantity)));
+        holder.tvQuantity.setText(String.format(mContext.getString(R.string.quantity), Constants.format(quantity)));
         holder.tvMeasure.setText(String.format(mContext.getString(R.string.measure_text), measure));
         holder.tvIngredient.setText(ingredient);
 
@@ -78,9 +78,7 @@ public class IngredientsFragmentAdapter extends RecyclerView.Adapter<Ingredients
 
         IngredientsViewHolder(View itemView) {
             super(itemView);
-
-
-
+            
             ButterKnife.bind(this, itemView);
         }
     }

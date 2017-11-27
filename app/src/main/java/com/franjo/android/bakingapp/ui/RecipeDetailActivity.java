@@ -20,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-// This activity will display a custom Android lists composed of two lists ingredients and steps
 public class RecipeDetailActivity extends AppCompatActivity implements RecipeDetailFragment.OnStepDetailListener, StepDetailFragment.OnStepDetailListener {
 
     private static final String TAG = RecipeDetailActivity.class.getSimpleName();

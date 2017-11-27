@@ -79,7 +79,6 @@ public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.Re
 
     public void addRecipes(List<Recipes> recipes) {
         mListRecipes = recipes;
-        //mContext = context;
         notifyDataSetChanged();
     }
 
@@ -115,9 +114,6 @@ public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.Re
             if (mListener != null) {
                     mListener.itemClicked(mRecipesList.get(getAdapterPosition()));
             }
-
-
-
 
         }
     }

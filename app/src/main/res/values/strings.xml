@@ -3,16 +3,18 @@
     <string name="recipe_image">Recipe image</string>
     <string name="app_title">Baking time</string>
 
-    <string name="ingredients">- INGREDIENTS -</string>
-    <string name="steps">- STEPS -</string>
+    <string name="ingredients">INGREDIENTS</string>
+    <string name="steps">STEPS:</string>
     <string name="measure_text">Measure: %s</string>
+    <string name="quantity">Quantity: %s x</string>
 
     <string name="add_widget">Add widget</string>
     <string name="widget_image">Widget image</string>
-
-    <string name="no_ingredients">No ingredients!</string>
     <string name="widget_no_data_image">Widget no data image</string>
     <string name="widget_text">Ingredient list</string>
+    <string name="ingredient_list_widget_title">Ingredient list:</string>
+
+    <string name="no_ingredients">No ingredients!</string>
 
     <!-- Buttons -->
     <string name="next">Next</string>
@@ -20,6 +22,12 @@
     <string name="no_video_image">No video image</string>
     <string name="previousvideobutton">Previous Video Button</string>
     <string name="nextvideobutton">Next Video Button</string>
+    <string name="button_next_end_text">This is the last recipes step</string>
+    <string name="button_previous_text_end">This is the first recipes step</string>
+
+
+    <string name="log_message_ingredient_id_null">This fragment has a null list of ingredients id\'s</string>
+
 
 
 </resources>

@@ -38,9 +38,9 @@ public class IngredientFragment extends Fragment {
 
     private List<Recipes> mRecipesList;
     private List<Ingredients> mIngredientsList;
-    private int mListIndex;
+    int mListIndex;
 
-    private List<Ingredients> widgetArrayList;
+    List<Ingredients> mWidgetArrayList;
 
 
     // Mandatory empty constructor
@@ -69,11 +69,11 @@ public class IngredientFragment extends Fragment {
             mIngredientsList = mRecipesList.get(mListIndex).getIngredients();
 
         } else {
-            Log.v(TAG, "This fragment has a null list of ingredients id's");
+            Log.v(TAG, getString(R.string.log_message_ingredient_id_null));
 
         }
 
-        widgetArrayList = new ArrayList<>();
+        mWidgetArrayList = new ArrayList<>();
 
         IngredientsFragmentAdapter mAdapter = new IngredientsFragmentAdapter(getActivity(), mIngredientsList);
         recyclerView.setHasFixedSize(true);
@@ -82,21 +82,19 @@ public class IngredientFragment extends Fragment {
 
         updateWidgetScreen(mIngredientsList);
 
-
-        Log.i(TAG, "ingredientFragment service");
         return rootView;
     }
 
     public void updateWidgetScreen(List<Ingredients> widgetArrayList) {
 
-        StringBuilder ingredients = new StringBuilder("Ingredient list: " + "\n");
+        StringBuilder ingredients = new StringBuilder(getString(R.string.ingredient_list_widget_title) + "\n");
         int lineNumber = 0;
         for (Ingredients ingredient : widgetArrayList) {
             Double quantity = ingredient.getQuantitiy();
                     lineNumber++;
             ingredients.append(lineNumber).append(". ")
                     .append(ingredient.getIngredient()).append(": " + "\n")
-                    .append(Constants.format(quantity)).append(" ").append(ingredient.getMeasure()).append("\n");
+                    .append(Constants.format(quantity)).append(" x ").append(ingredient.getMeasure()).append("\n");
         }
 
         RecipesUpdateService.startActionFetchIngredientsList(getContext(), ingredients.toString());

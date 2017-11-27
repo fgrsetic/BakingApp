@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_recipes_detail_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -34,10 +35,10 @@
                     android:layout_gravity="center"
                     android:ems="15"
                     android:padding="2dp"
-                    android:fontFamily="monospace"
+                    android:fontFamily="cursive"
                     android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     tools:text="Ingredients" />
 
@@ -53,7 +54,7 @@
                     android:layout_marginRight="8dp"
                     android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     tools:text="\u25BA"
                     tools:ignore="RelativeOverlap" />
@@ -78,9 +79,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="2dp"
-                android:fontFamily="monospace"
+                android:fontFamily="cursive"
                 android:textColor="#000000"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
         </android.support.v7.widget.CardView>
@@ -88,7 +89,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_detail_layout"
+        android:id="@+id/fragment_detail_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"

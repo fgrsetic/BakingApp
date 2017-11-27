@@ -14,6 +14,7 @@ public final class Constants {
 
     public static final String CLICKED_RECIPE = "clicked_recipe"; // Clicked viewcard item in RecipeMainActivity
     public static final String CLICKED_STEP = "clicked_step"; // Clicked step short description list item
+    public static final String INDEX = "step_index";
 
     public static final String STEP_DETAILS_STACK = "step_details_stack";
     public static final String RECIPE_DETAILS_STACK = "recipe_details_stack";

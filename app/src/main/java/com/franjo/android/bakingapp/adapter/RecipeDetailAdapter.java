@@ -23,6 +23,8 @@ import butterknife.ButterKnife;
 
 public class RecipeDetailAdapter extends RecyclerView.Adapter<RecipeDetailAdapter.ViewHolder> {
 
+    private static final String TAG = RecipeDetailAdapter.class.getSimpleName();
+
     private List<Steps> mListSteps = new ArrayList<>();
     private LayoutInflater mInflater;
     private OnStepItemClickListener mlistener;

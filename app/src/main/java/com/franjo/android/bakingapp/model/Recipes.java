@@ -19,9 +19,6 @@ public class Recipes implements Parcelable{
     private Integer servings;
     private String image;
 
-    public Recipes() {
-
-    }
 
     public Integer getId() {
         return id;

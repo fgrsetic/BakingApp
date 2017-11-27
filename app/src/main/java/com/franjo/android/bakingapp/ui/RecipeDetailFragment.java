@@ -35,7 +35,7 @@ public class RecipeDetailFragment extends Fragment implements OnStepItemClickLis
 
     private static final String TAG = RecipeDetailFragment.class.getSimpleName();
 
-    @BindView(R.id.fragment_detail_layout)
+    @BindView(R.id.fragment_detail_recycler_view)
     RecyclerView recyclerView;
 
     @BindView(R.id.tvIngredientDetails)

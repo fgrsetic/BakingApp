@@ -1,4 +1,4 @@
-package com.franjo.android.bakingapp.service;
+package com.franjo.android.bakingapp.network;
 
 import com.franjo.android.bakingapp.utilities.Constants;
 import com.google.gson.Gson;
@@ -11,9 +11,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Franjo on 30.10.2017..
  */
 
-public class Controller {
+public class RecipeAPIClient {
 
-    public static RecipeAPI getRecipes() {
+    public static RecipeAPIInterface getRecipes() {
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -25,7 +25,7 @@ public class Controller {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        return retrofit.create(RecipeAPI.class);
+        return retrofit.create(RecipeAPIInterface.class);
     }
 
 }

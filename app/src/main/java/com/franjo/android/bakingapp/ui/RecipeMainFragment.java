@@ -14,12 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.franjo.android.bakingapp.IdlingResource.SimpleIdlingResource;
 import com.franjo.android.bakingapp.OnRecipesItemClickListener;
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.adapter.RecipeMainAdapter;
 import com.franjo.android.bakingapp.model.Recipes;
-import com.franjo.android.bakingapp.service.Controller;
-import com.franjo.android.bakingapp.service.RecipeAPI;
+import com.franjo.android.bakingapp.network.RecipeAPIClient;
+import com.franjo.android.bakingapp.network.RecipeAPIInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +98,19 @@ public class RecipeMainFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
         }
 
-        final RecipeAPI recipeAPI = Controller.getRecipes();
+        /**
+         * The IdlingResource is null in production as set by the @Nullable annotation which means
+         * the value is allowed to be null.
+         *
+         * If the idle state is true, Espresso can perform the next action.
+         * If the idle state is false, Espresso will wait until it is true before
+         * performing the next action.
+         */
+        final SimpleIdlingResource idlingResource = (SimpleIdlingResource)((RecipeMainActivity)getActivity()).getIdlingResource();
+        idlingResource.setIdleState(false);
+
+
+        final RecipeAPIInterface recipeAPI = RecipeAPIClient.getRecipes();
         Call<List<Recipes>> call = recipeAPI.getRecipes();
 
             call.enqueue(new Callback<List<Recipes>>() {
@@ -108,6 +121,8 @@ public class RecipeMainFragment extends Fragment {
                     List<Recipes> recipesList = response.body();
 
                     mAdapter.addRecipes(recipesList);
+
+                    idlingResource.setIdleState(true);
 
                 } else {
                     Toast.makeText(getContext(), (CharSequence) response.errorBody(), Toast.LENGTH_SHORT).show();
