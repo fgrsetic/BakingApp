@@ -1,25 +1,27 @@
 package com.franjo.android.bakingapp.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.session.MediaSessionCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.franjo.android.bakingapp.R;
 import com.franjo.android.bakingapp.model.Recipes;
 import com.franjo.android.bakingapp.model.Steps;
 import com.franjo.android.bakingapp.utilities.Constants;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.LoadControl;
@@ -53,10 +55,12 @@ public class StepDetailFragment extends Fragment {
 
     private SimpleExoPlayer mPlayer;
     private DefaultBandwidthMeter bandwithMeter;
-    private static MediaSessionCompat mMediaSession;
+    int currentWindow;
+    private long playbackPosition = C.TIME_UNSET;
+    private static final String CURRENT_POSITION = "current position";
 
     private int mListIndex;
-    private String mRecipeName;
+    String mRecipeName;
 
     @BindView(R.id.tvDescription)
     TextView tvDescription;
@@ -75,6 +79,8 @@ public class StepDetailFragment extends Fragment {
 
     // Define a new interface OnStepDetailListener that triggers a callback in the host activity
     OnStepDetailListener mButtonCallback;
+
+    View fragmentView;
 
 
     // Mandatory empty constructor
@@ -114,6 +120,7 @@ public class StepDetailFragment extends Fragment {
         mListSteps = new ArrayList<>();
         bandwithMeter = new DefaultBandwidthMeter();
 
+
     }
 
     @Override
@@ -128,6 +135,7 @@ public class StepDetailFragment extends Fragment {
             mListRecipes = savedInstanceState.getParcelableArrayList(Constants.CLICKED_RECIPE);
             mListSteps = savedInstanceState.getParcelableArrayList(Constants.CLICKED_STEP);
             mListIndex = savedInstanceState.getInt("Index");
+            playbackPosition = savedInstanceState.getLong(CURRENT_POSITION, C.TIME_UNSET);
 
         } else {
             mListSteps = bundle.getParcelableArrayList(Constants.CLICKED_STEP);
@@ -147,7 +155,7 @@ public class StepDetailFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        View fragmentView = inflater.inflate(R.layout.fragment_step_detail, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_step_detail, container, false);
 
         ButterKnife.bind(this, fragmentView);
 
@@ -172,7 +180,7 @@ public class StepDetailFragment extends Fragment {
                             mButtonCallback.onStepSelected(mListSteps, indexPosition);
 
                         } else {
-                            Toast.makeText(getActivity(), R.string.button_previous_text_end, Toast.LENGTH_SHORT).show();
+                            Snackbar.make(view, R.string.button_previous_text_end, Snackbar.LENGTH_LONG).show();
 
                         }
                     }
@@ -185,7 +193,7 @@ public class StepDetailFragment extends Fragment {
                 int indexPosition = id + 1;
 
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
 
                     int lastIndex = mListSteps.size() - 1;
 
@@ -197,12 +205,13 @@ public class StepDetailFragment extends Fragment {
                         mButtonCallback.onStepSelected(mListSteps, indexPosition);
 
                     } else {
-                        Toast.makeText(getContext(), R.string.button_next_end_text, Toast.LENGTH_SHORT).show();
-
+                        Snackbar.make(view, R.string.button_next_end_text, Snackbar.LENGTH_LONG).show();
                     }
                 }
 
             });
+
+
 
         return fragmentView;
     }
@@ -220,7 +229,7 @@ public class StepDetailFragment extends Fragment {
             String thumbnailURL = listSteps.get(index).getThumbnailURL();
             String mVideoUrl = listSteps.get(index).getVideoURL();
 
-            if (thumbnailURL != "") {
+            if (TextUtils.isEmpty(thumbnailURL)) {
                 Uri builtUri = Uri.parse(thumbnailURL).buildUpon().build();
                 Picasso.with(getContext())
                         .load(builtUri)
@@ -259,7 +268,11 @@ public class StepDetailFragment extends Fragment {
             mExoPlayerView.setPlayer(mPlayer);
             mPlayer.prepare(videoSource);
             mPlayer.setPlayWhenReady(true);
+            mPlayer.seekTo(currentWindow, playbackPosition);
 
+        }
+        if (fragmentView.findViewWithTag("fragment_step_landscape") != null) {
+            hideSystemUi();
         }
 
     }
@@ -304,11 +317,20 @@ public class StepDetailFragment extends Fragment {
         super.onPause();
         if (mPlayer!=null) {
             mPlayer.stop();
+            playbackPosition = mPlayer.getCurrentPosition();
             mPlayer.release();
         }
     }
 
-
+    @SuppressLint("InlinedApi")
+    private void hideSystemUi() {
+        mExoPlayerView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+    }
 
     @Override
     public void onSaveInstanceState(Bundle currentState) {
@@ -316,8 +338,8 @@ public class StepDetailFragment extends Fragment {
         currentState.putParcelableArrayList(Constants.CLICKED_STEP, (ArrayList<? extends Parcelable>) mListSteps);
         currentState.putParcelableArrayList(Constants.CLICKED_RECIPE, (ArrayList<? extends Parcelable>) mListRecipes);
         currentState.putInt("Index", mListIndex);
+        currentState.putLong(CURRENT_POSITION, playbackPosition);
 
     }
-
 
 }

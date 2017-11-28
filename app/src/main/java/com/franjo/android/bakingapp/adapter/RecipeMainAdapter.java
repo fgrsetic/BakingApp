@@ -2,6 +2,7 @@ package com.franjo.android.bakingapp.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,7 @@ public class RecipeMainAdapter extends RecyclerView.Adapter<RecipeMainAdapter.Re
 
         String imageUrl = recipes.getImage();
 
-        if (imageUrl != "") {
+        if (!TextUtils.isEmpty(imageUrl)) {
 
             Picasso.with(mContext)
                     .load(imageUrl)

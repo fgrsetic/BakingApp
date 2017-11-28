@@ -6,4 +6,6 @@
 
     <color name="colorPrimaryLight">#b39ddb</color>
 
+    <color name="widget_background_color">#ffab91</color>
+
 </resources>

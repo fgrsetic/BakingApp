@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.franjo.android.bakingapp.ui.StepDetailFragment">
 
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
         android:id="@+id/mPlayerView"
-        android:layout_width="350dp"
-        android:layout_height="250dp"
+        android:layout_width="635dp"
+        android:layout_height="370dp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -29,86 +25,83 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|start"
+        android:adjustViewBounds="true"
         android:baselineAlignBottom="false"
         android:contentDescription="@string/no_video_image"
         android:elevation="1dp"
-        android:adjustViewBounds="true"
         tools:targetApi="lollipop" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvStepsDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/mPlayerView">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ScrollView
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvStepsDescription"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="16dp"
-                android:fontFamily="monospace"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                tools:text="Description">
-
-            </TextView>
-        </ScrollView>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp" >
-
-        <Button
-            android:id="@+id/btnPrevious"
-            android:contentDescription="@string/previousvideobutton"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/previous"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginLeft="8dp"
-            android:focusable="true"
-            android:background="@drawable/list_item_selector" />
-
-        <Button
-            android:id="@+id/btnNext"
-            android:contentDescription="@string/nextvideobutton"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/next"
-            android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="8dp"
-            android:focusable="true"
-            android:background="@drawable/list_item_selector" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mPlayerView" />
 
-    </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btnPrevious"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/list_item_selector"
+        android:contentDescription="@string/previousvideobutton"
+        android:focusable="true"
+        android:text="@string/previous"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@+id/mPlayerView"
+        app:layout_constraintTop_toBottomOf="@+id/mPlayerView"
+        android:layout_marginLeft="32dp" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="monospace"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btnPrevious"
+        app:layout_constraintEnd_toStartOf="@+id/mPlayerView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Description">
+
+    </TextView>
+
+    <Button
+        android:id="@+id/btnNext"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/list_item_selector"
+        android:contentDescription="@string/nextvideobutton"
+        android:focusable="true"
+        android:text="@string/next"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mPlayerView"
+        android:layout_marginRight="32dp" />
+
+
+</android.support.constraint.ConstraintLayout>

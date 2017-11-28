@@ -35,11 +35,7 @@
                     android:layout_gravity="center"
                     android:ems="15"
                     android:padding="2dp"
-                    android:fontFamily="cursive"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    style="@style/fragment_recipes_detail_layout"
                     tools:text="Ingredients" />
 
                 <TextView
@@ -52,10 +48,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    style="@style/fragment_recipes_detail_layout"
                     tools:text="\u25BA"
                     tools:ignore="RelativeOverlap" />
 
@@ -79,10 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="2dp"
-                android:fontFamily="cursive"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                style="@style/fragment_recipes_detail_layout" />
 
         </android.support.v7.widget.CardView>
 

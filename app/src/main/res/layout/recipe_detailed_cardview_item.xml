@@ -29,6 +29,7 @@
 
             <TextView
                 android:id="@+id/tvBullet"
+                style="@style/recipe_detail_cardview_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -37,50 +38,37 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
-                android:fontFamily="cursive"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="\u25CF"
                 android:layout_toRightOf="@+id/tvStepsDetails"
-                android:layout_toEndOf="@+id/tvStepsDetails"/>
+                android:layout_toEndOf="@+id/tvStepsDetails"
+                tools:text="\u25CF" />
 
 
             <TextView
                 android:id="@+id/tvShortDescription"
+                style="@style/recipe_detail_cardview_item"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_centerHorizontal="true"
                 android:layout_toEndOf="@+id/tvBullet"
                 android:layout_toLeftOf="@+id/tvStepsDetails"
+                android:layout_toRightOf="@+id/tvBullet"
                 android:layout_toStartOf="@+id/tvStepsDetails"
-                android:fontFamily="cursive"
-                android:gravity="center"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="Short description"
-                android:layout_toRightOf="@+id/tvBullet" />
+                android:gravity="center_vertical"
+                tools:text="Short description" />
 
 
             <TextView
                 android:id="@+id/tvStepsDetails"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/recipe_detail_cardview_item"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="false"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
-                android:fontFamily="cursive"
                 android:maxLines="1"
-                android:textAlignment="center"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold"
                 tools:text="\u25BA" />
 
         </RelativeLayout>

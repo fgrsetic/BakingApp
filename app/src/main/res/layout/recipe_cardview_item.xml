@@ -33,11 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:fontFamily="cursive"
-        android:padding="16dp"
-        android:textColor="#FF000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        style="@style/recipe_cardview_item"
         tools:text="Title" />
 
     </LinearLayout>
