@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".app.BakingApplication"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.RecipeMainActivity">
+        <activity android:name=".presentation.BaseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,33 +22,29 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.RecipeDetailActivity">
 
-        </activity>
+<!--        <receiver android:name=".widget.RecipesWidgetProvider">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
 
-        <receiver
-            android:name=".widget.RecipesWidgetProvider">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/recipes_widget_provider_info" />-->
+<!--        </receiver>-->
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/recipes_widget_provider_info" />
-        </receiver>
+<!--        <service-->
+<!--            android:name=".widget.RecipesUpdateService"-->
+<!--            android:exported="false"></service>-->
+<!--        <service-->
+<!--            android:name=".widget.RemoteListViewService"-->
+<!--            android:permission="android.permission.BIND_REMOTEVIEWS">-->
 
-        <service
-            android:name=".widget.RecipesUpdateService"
-            android:exported="false">
-        </service>
-
-        <service
-            android:name=".widget.RemoteListViewService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"> <!-- This lets the system bind your service to create the widget views for each row
-            and prevents other apps from accessing your widget’s data -->
-        </service>
-
+<!--            &lt;!&ndash;-->
+<!--      This lets the system bind your service to create the widget views for each row-->
+<!--            and prevents other apps from accessing your widget’s data-->
+<!--            &ndash;&gt;-->
+<!--        </service>-->
     </application>
 
 </manifest>

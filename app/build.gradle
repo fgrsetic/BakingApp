@@ -1,59 +1,120 @@
 apply plugin: 'com.android.application'
+apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 30
+    buildToolsVersion '30.0.2'
+
     defaultConfig {
         applicationId "com.franjo.android.bakingapp"
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion 21
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        multiDexEnabled = true
+        vectorDrawables.useSupportLibrary = true
+        android.buildFeatures.dataBinding = true
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    android.buildFeatures.dataBinding = true
 }
 
+
 dependencies {
-    implementation 'com.android.support:support-v4:26.1.0'
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    // core
+    def appcompat_version = '1.2.0'
+    def constraint_layout_version = '2.0.1'
+    def material_version = '1.2.1'
+    def recyclerview_version = '1.1.0'
+    def cardview_version = '1.0.0'
 
-    compile 'com.android.support:appcompat-v7:26.1.0'
-    compile 'com.android.support:design:26.1.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:recyclerview-v7:26.1.0'
-    compile 'com.android.support:cardview-v7:26.1.0'
+    // Lifecycle, ViewModel
+    def lifecycle_version = "2.2.0"
 
-    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    // Network
+    def retrofit_version = '2.9.0'
+    def logging_interceptor_version = '4.9.0'
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    // Dagger 2
+    def dagger_version = '2.29.1'
 
-    compile 'com.google.android.exoplayer:exoplayer:r2.2.0'
+    // Rx
+    def rxJava_version = "3.0.0"
+    def rxAndroid_version = "3.0.0"
+    def rxJava_callAdapter_version = "3.0.0"
 
-    compile 'com.android.support:support-annotations:27.0.1'
-    compile 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    // Images
+    def glide_version = '4.11.0'
 
-    testCompile 'junit:junit:4.12'
+    // Navigation
+    def nav_version = "2.3.0"
 
-    compile 'com.android.support.test.espresso:espresso-idling-resource:3.0.1'
-    compile 'com.android.support.test.espresso:espresso-contrib:3.0.1'
+    // Exo player
+    def exo_player = "2.12.0"
 
-    // Testing-only dependencies
-    androidTestCompile 'com.android.support:support-annotations:27.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
-    androidTestCompile 'com.android.support.test:rules:1.0.1'
-    androidTestCompile 'com.android.support.test:runner:1.0.1'
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2', {
-        exclude group: 'com.android.support', module: 'appcompat-v7'
-        exclude group: 'com.android.support', module: 'support-v4'
-        exclude module: 'recyclerview-v7'
-    })
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Core
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    implementation "androidx.cardview:cardview:$cardview_version"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+    implementation "androidx.navigation:navigation-runtime:$nav_version"
+
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+
+    // Network
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
+
+    // Dagger 2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Reactive
+    implementation "io.reactivex.rxjava3:rxjava:$rxJava_version"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxAndroid_version"
+
+    // RxJava Call Adapter (Call object to Observable)
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$rxJava_callAdapter_version"
+
+    // Images
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+
+    // Exoplayer
+    implementation "com.google.android.exoplayer:exoplayer:$exo_player"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:25.11.0')
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
 }

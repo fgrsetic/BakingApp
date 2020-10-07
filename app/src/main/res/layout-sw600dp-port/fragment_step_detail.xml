@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.franjo.android.bakingapp.ui.StepDetailFragment">
+    tools:context="com.franjo.android.bakingapp.presentation.StepDetailFragment">
 
 
     <com.google.android.exoplayer2.ui.SimpleExoPlayerView
@@ -34,7 +34,7 @@
         android:adjustViewBounds="true"
         tools:targetApi="lollipop" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cvStepsDescription"
         android:layout_width="match_parent"
         android:layout_height="180dp"
@@ -65,9 +65,9 @@
             </TextView>
         </ScrollView>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp" >
@@ -108,6 +108,6 @@
             android:focusable="true"
             android:background="@drawable/list_item_selector" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
