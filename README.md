@@ -1,6 +1,5 @@
-Udacity Android Nanodegree Project - BakingApp
+BakingApp
 
-This project is a part of Udacity Nanodegree program. 
 App allows user to select a apiRecipe and see video-guided steps for how to complete it
 
 App description: 
