@@ -1,13 +1,22 @@
-apply plugin: 'com.android.application'
-apply plugin: "androidx.navigation.safeargs"
-apply plugin: 'com.google.gms.google-services'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'dagger.hilt.android.plugin'
+}
+
+def appId = "com.franjo.android.bakingapp"
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
-        applicationId "com.franjo.android.bakingapp"
+        applicationId appId
+        testApplicationId "${appId}.test"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
@@ -16,7 +25,6 @@ android {
 
         multiDexEnabled = true
         vectorDrawables.useSupportLibrary = true
-        android.buildFeatures.dataBinding = true
     }
 
     buildTypes {
@@ -27,8 +35,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     android.buildFeatures.dataBinding = true
@@ -36,36 +44,37 @@ android {
 
 
 dependencies {
-    // core
-    def appcompat_version = '1.2.0'
-    def constraint_layout_version = '2.0.1'
-    def material_version = '1.2.1'
-    def recyclerview_version = '1.1.0'
+
+    // Core
+    def appcompat_version = '1.3.1'
+    def constraint_layout_version = '2.1.0'
+    def material_version = '1.4.0'
+    def recyclerview_version = '1.2.1'
     def cardview_version = '1.0.0'
 
     // Lifecycle, ViewModel
-    def lifecycle_version = "2.2.0"
+    def lifecycle_version = '2.3.1'
 
     // Network
     def retrofit_version = '2.9.0'
-    def logging_interceptor_version = '4.9.0'
+    def logging_interceptor_version = '5.0.0-alpha.2'
 
-    // Dagger 2
-    def dagger_version = '2.29.1'
+    // Dagger - Hilt
+    def hilt_version = '2.38.1'
 
     // Rx
-    def rxJava_version = "3.0.0"
+    def rxJava_version = '3.0.13'
     def rxAndroid_version = "3.0.0"
     def rxJava_callAdapter_version = "3.0.0"
 
     // Images
-    def glide_version = '4.11.0'
+    def glide_version = '4.12.0'
 
     // Navigation
-    def nav_version = "2.3.0"
+    def nav_version = '2.3.5'
 
     // Exo player
-    def exo_player = "2.12.0"
+    def exo_player = '2.14.2'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -77,9 +86,9 @@ dependencies {
     implementation "androidx.cardview:cardview:$cardview_version"
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment:$nav_version"
-    implementation "androidx.navigation:navigation-ui:$nav_version"
-    implementation "androidx.navigation:navigation-runtime:$nav_version"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-runtime-ktx:$nav_version"
 
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
@@ -94,12 +103,9 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
 
-    // Dagger 2
-    implementation "com.google.dagger:dagger:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    // Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 
     // Reactive
     implementation "io.reactivex.rxjava3:rxjava:$rxJava_version"
@@ -116,5 +122,5 @@ dependencies {
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:25.11.0')
-    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
 }
