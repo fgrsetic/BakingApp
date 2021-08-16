@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".app.BakingApplication"
+        android:name=".app.BakingApp"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,12 +15,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".presentation.BaseActivity">
+
+
+        <activity android:name="com.franjo.android.bakingapp.presentation.base.BaseActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
 
 
@@ -41,8 +44,7 @@
 <!--            android:name=".widget.RemoteListViewService"-->
 <!--            android:permission="android.permission.BIND_REMOTEVIEWS">-->
 
-<!--            &lt;!&ndash;-->
-<!--      This lets the system bind your service to create the widget views for each row-->
+<!--            &lt;!&ndash;This lets the system bind your service to create the widget views for each row-->
 <!--            and prevents other apps from accessing your widget’s data-->
 <!--            &ndash;&gt;-->
 <!--        </service>-->

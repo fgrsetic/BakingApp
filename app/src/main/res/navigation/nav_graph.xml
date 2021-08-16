@@ -3,12 +3,11 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/recipeFragment">
+
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.franjo.android.bakingapp.presentation.ui.main.MainRecipeFragment"
-        android:label="MainFragment">
-    </fragment>
-
+        android:id="@+id/recipeFragment"
+        android:name="com.franjo.android.bakingapp.presentation.ui.recipe.RecipeFragment"
+        android:label="RecipeFragment" />
 </navigation>

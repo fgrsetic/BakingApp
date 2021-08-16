@@ -1,7 +1,0 @@
-package com.franjo.android.bakingapp.domain.usecase.base;
-
-import io.reactivex.rxjava3.core.Completable;
-
-public interface CompletableUseCaseWithParams<P> {
-    Completable execute(P parameter);
-}

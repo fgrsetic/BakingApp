@@ -40,6 +40,11 @@ android {
     }
 
     android.buildFeatures.dataBinding = true
+
+    packagingOptions {
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
+    }
 }
 
 
@@ -57,15 +62,15 @@ dependencies {
 
     // Network
     def retrofit_version = '2.9.0'
+    def moshi_kotlin_version = '1.12.0'
     def logging_interceptor_version = '5.0.0-alpha.2'
+    def coroutine_adapter_version = '0.9.2'
 
     // Dagger - Hilt
     def hilt_version = '2.38.1'
 
-    // Rx
-    def rxJava_version = '3.0.13'
-    def rxAndroid_version = "3.0.0"
-    def rxJava_callAdapter_version = "3.0.0"
+    // Coroutines
+    def coroutine_version = '1.5.1-native-mt'
 
     // Images
     def glide_version = '4.12.0'
@@ -74,7 +79,7 @@ dependencies {
     def nav_version = '2.3.5'
 
     // Exo player
-    def exo_player = '2.14.2'
+    def exo_player = '2.15.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -85,34 +90,35 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
     implementation "androidx.cardview:cardview:$cardview_version"
 
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutine_version"
+
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-runtime-ktx:$nav_version"
 
     // ViewModel
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
-
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
 
     // Network
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$logging_interceptor_version"
+    implementation "com.squareup.moshi:moshi-kotlin:$moshi_kotlin_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$coroutine_adapter_version"
 
     // Dagger - Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
-
-    // Reactive
-    implementation "io.reactivex.rxjava3:rxjava:$rxJava_version"
-    implementation "io.reactivex.rxjava3:rxandroid:$rxAndroid_version"
-
-    // RxJava Call Adapter (Call object to Observable)
-    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$rxJava_callAdapter_version"
 
     // Images
     implementation "com.github.bumptech.glide:glide:$glide_version"

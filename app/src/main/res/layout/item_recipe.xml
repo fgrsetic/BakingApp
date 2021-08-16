@@ -2,12 +2,18 @@
 
 <layout xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="item"
             type="com.franjo.android.bakingapp.presentation.model.RecipeUI" />
+
+        <variable
+            name="recipeViewModel"
+            type="com.franjo.android.bakingapp.presentation.ui.recipe.RecipeViewModel" />
 
     </data>
 
@@ -34,6 +40,7 @@
                 android:layout_height="180dp"
                 android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                app:thumbnailPath="@{recipeViewModel.recipesViewState.toRecipes()}"
                 android:contentDescription="@string/recipe_image" />
 
             <TextView
@@ -41,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
+                android:text="@{item.name}"
                 style="@style/recipe_cardview_item"
                 tools:text="Title" />
 
