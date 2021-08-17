@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 interface EntityMapperModule {
 
     @Binds
-    fun bindEntityMapper(impl: EntityMapperImpl): EntityMapper
+    fun bindsEntityMapper(impl: EntityMapperImpl): EntityMapper
 }

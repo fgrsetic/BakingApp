@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.franjo.android.bakingapp.domain.di.MainDispatcher
 import com.franjo.android.bakingapp.domain.mapper.EntityMapper
 import com.franjo.android.bakingapp.domain.usecase.GetRecipes
+import com.franjo.android.bakingapp.domain.utils.DispatcherProvider
 import com.franjo.android.bakingapp.domain.utils.ResultWrapper
 import com.franjo.android.bakingapp.presentation.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
-    @MainDispatcher dispatcher: CoroutineDispatcher,
+    dispatcher: DispatcherProvider,
     private var mapper: EntityMapper,
     private val getRecipes: GetRecipes
 ) : BaseViewModel(dispatcher) {

@@ -4,7 +4,7 @@ buildscript {
 
     ext {
         gradle_version = '4.2.2'
-        kotlin_version = '1.5.10'
+        kotlin_version = '1.5.21'
         google_services_version = "4.3.4"
         nav_version = '1.0.0'
         crashlytics_version = "2.6.0"

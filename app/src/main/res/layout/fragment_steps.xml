@@ -13,7 +13,6 @@
         android:orientation="vertical"
         tools:context="com.franjo.android.bakingapp.presentation.StepDetailFragment">
 
-
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/mPlayerView"
             android:layout_width="match_parent"
@@ -21,11 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
-
-
-        </com.google.android.exoplayer2.ui.PlayerView>
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/thumbImage"

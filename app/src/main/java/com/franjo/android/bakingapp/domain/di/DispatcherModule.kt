@@ -1,13 +1,13 @@
 package com.franjo.android.bakingapp.domain.di
 
+import com.franjo.android.bakingapp.domain.utils.DispatcherProvider
+import com.franjo.android.bakingapp.domain.utils.DispatcherProviderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
+import javax.inject.Singleton
 
 
 @Retention(AnnotationRetention.BINARY)
@@ -26,16 +26,21 @@ annotation class MainDispatcher
 @InstallIn(SingletonComponent::class)
 object DispatcherModule {
 
-    @IODispatcher
-    @Provides
-    fun iODispatcher(): CoroutineDispatcher = Dispatchers.IO
+//    @IODispatcher
+//    @Provides
+//    fun iODispatcher(): CoroutineDispatcher = Dispatchers.IO
+//
+//    @DefaultDispatcher
+//    @Provides
+//    fun defaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+//
+//    @MainDispatcher
+//    @Provides
+//    fun mainDispatcher(): CoroutineDispatcher = Dispatchers.Main
 
-    @DefaultDispatcher
+    @Singleton
     @Provides
-    fun defaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+    fun providesDispatcher(): DispatcherProvider = DispatcherProviderImpl()
 
-    @MainDispatcher
-    @Provides
-    fun mainDispatcher(): CoroutineDispatcher = Dispatchers.Main
 }
 
