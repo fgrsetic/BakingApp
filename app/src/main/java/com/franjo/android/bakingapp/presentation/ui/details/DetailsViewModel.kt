@@ -1,7 +1,11 @@
 package com.franjo.android.bakingapp.presentation.ui.details
 
-import androidx.lifecycle.ViewModel
+import com.franjo.android.bakingapp.domain.utils.DispatcherProvider
+import com.franjo.android.bakingapp.presentation.base.BaseViewModel
 
-class DetailsViewModel : ViewModel() {
-    // TODO: Implement the ViewModel
+class DetailsViewModel(
+    dispatcher: DispatcherProvider
+) : BaseViewModel(dispatcher) {
+
+
 }

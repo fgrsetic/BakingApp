@@ -21,5 +21,9 @@
         android:id="@+id/detailsFragment"
         android:name="com.franjo.android.bakingapp.presentation.ui.details.DetailsFragment"
         android:label="DetailsFragment" />
+    <fragment
+        android:id="@+id/stepFragment"
+        android:name="com.franjo.android.bakingapp.presentation.ui.steps.StepFragment"
+        android:label="StepFragment" />
 
 </navigation>
